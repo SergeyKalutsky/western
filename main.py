@@ -6,18 +6,27 @@ class Game:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode([WIDTH, HEIGHT])
-        pygame.display.set_caption('WESTERN')
+        pygame.display.set_caption('WESTERN(ESC for quit)')
         self.bg = pygame.image.load('assets/images/background.png')
         self.shot_sound = pygame.mixer.Sound('assets/sound/shot.wav')
         self.player = Player(800, 350)
         self.enemy = Enemy(300, 170)
         self.aim = Aim(self.enemy)
-
+        pygame.mouse.set_visible(False)
         self.all_sprite_list = pygame.sprite.Group()
         self.all_sprite_list.add(self.player)
         self.all_sprite_list.add(self.enemy)
         self.all_sprite_list.add(self.aim)
         self.clock = pygame.time.Clock()
+
+
+    def move_cursor(self, aim, sensivity=0.5):
+        rel = pygame.mouse.get_rel()
+        if (pygame.mouse.get_pos()[0] < 300 or pygame.mouse.get_pos()[0] > 900) or (pygame.mouse.get_pos()[1] < 300 or pygame.mouse.get_pos()[1] > 500):
+            pygame.mouse.set_pos([600, 400])
+        elif abs(rel[0]) < 200 and abs(rel[1]) < 100:
+            aim.rect.x += rel[0] * sensivity
+            aim.rect.y += rel[1] * sensivity
 
     def draw(self):
         self.screen.blit(self.bg, (0, 0))
@@ -28,7 +37,7 @@ class Game:
         while not done:
 
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     done = True
                 
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -43,6 +52,7 @@ class Game:
                         self.player.stop()
 
             self.draw()
+            self.move_cursor(self.aim)
             self.all_sprite_list.update()
             pygame.display.flip()
             self.clock.tick(FPS)
