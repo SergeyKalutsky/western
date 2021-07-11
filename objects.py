@@ -1,3 +1,4 @@
+from constants import RED
 from random import randint
 import pygame
 
@@ -10,6 +11,7 @@ class Player(pygame.sprite.Sprite):
         self.stand_img = pygame.image.load('assets/images/player1.png')
         self.shooting_img = pygame.image.load('assets/images/player2.png')
         self.image = self.stand_img
+        self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -56,3 +58,6 @@ class Aim(pygame.sprite.Sprite):
         else:
             self.rect.x -= randint(1,10)
             self.rect.y -= randint(1,10)
+
+    def make_bullet_hole(self, screen):
+        pygame.draw.circle(screen, RED, (self.rect.x+50, self.rect.y+50), 7)

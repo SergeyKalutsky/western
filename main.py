@@ -27,6 +27,7 @@ class Game:
         done = False
         while not done:
 
+            self.draw()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     done = True
@@ -35,6 +36,7 @@ class Game:
                     if event.button == 1:
                         self.player.shoot()
                         self.shot_sound.play()
+                        self.aim.make_bullet_hole(self.screen)
 
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT and self.player.change_x < 0:
@@ -42,7 +44,6 @@ class Game:
                     if event.key == pygame.K_RIGHT and self.player.change_x > 0:
                         self.player.stop()
 
-            self.draw()
             self.all_sprite_list.update()
             pygame.display.flip()
             self.clock.tick(FPS)
