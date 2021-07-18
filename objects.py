@@ -64,24 +64,24 @@ class Aim(pygame.sprite.Sprite):
 
 
 class Timer:
-    def __init__(self, fps, seconds, cycle=False):
+    def __init__(self, fps, seconds):
         self.fps = fps
-        self.seconds = seconds
+        self.seconds_per_frame = seconds
         self.max_frames = fps * seconds
         self.frames = 0
-        self.run = False
+        self.active = False
 
     def update(self):
-        if self.run:
+        if self.active:
             if self.frames <= self.max_frames:
                 self.frames += 1
-                return False
             else:
-                self.run = False
-                self.frames = 0
-                return True
-        return False
+                self.active = False
     
     def start(self):
-        self.run = True
+        self.active = True
         self.frames = 0
+
+    @property
+    def time(self):
+        return round(self.frames / self.fps, 2)
