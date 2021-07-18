@@ -43,7 +43,7 @@ class Enemy(pygame.sprite.Sprite):
 
 class Aim(pygame.sprite.Sprite):
 
-    def __init__(self, enemy) -> None:
+    def __init__(self, enemy):
         super().__init__()
 
         self.image = pygame.image.load('assets/images/aim.png')
@@ -61,3 +61,27 @@ class Aim(pygame.sprite.Sprite):
 
     def make_bullet_hole(self, screen):
         pygame.draw.circle(screen, RED, (self.rect.x+50, self.rect.y+50), 7)
+
+
+class Timer:
+    def __init__(self, fps, seconds, cycle=False):
+        self.fps = fps
+        self.seconds = seconds
+        self.max_frames = fps * seconds
+        self.frames = 0
+        self.run = False
+
+    def update(self):
+        if self.run:
+            if self.frames <= self.max_frames:
+                self.frames += 1
+                return False
+            else:
+                self.run = False
+                self.frames = 0
+                return True
+        return False
+    
+    def start(self):
+        self.run = True
+        self.frames = 0
