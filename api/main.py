@@ -11,6 +11,7 @@ def read_root():
 @app.get("/ip_check")
 def read_root(request: Request):
     client_host = request.client.host
+    print(client_host)
     return {"client_host": client_host}
 
 
