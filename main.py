@@ -32,6 +32,8 @@ class Game:
         self.battle_permissions = [False, False]
         self.battle_permissions[0] = True
 
+        self.attack_timer_HBA = False # attack_timer Has Been Activeted
+
         pygame.mouse.set_visible(False)
 
     def draw(self):
@@ -121,9 +123,10 @@ class Game:
                 done = self.event_check(event)
             
             # если оба игрока нажали пробел запускается таймер
-            if self.battle_permissions[0] and self.battle_permissions[1] and not self.attack_timer.active:
+            if self.battle_permissions[0] and self.battle_permissions[1] and not self.attack_timer.active and not self.attack_timer_HBA:
                 self.attack_timer.start()
                 self.all_sprite_list.add(self.aim)
+                self.attack_timer_HBA = True
             
             # когда attack_timer запущен, появляется возможность двигать прицелом
             if self.attack_timer.active:    
