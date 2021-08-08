@@ -26,7 +26,7 @@ class Game:
         self.enemy = Enemy(250, 100)
         self.aim = Aim(self.enemy, shake_power=1, shake_frequency=0)
         self.shoot_timer = Timer(FPS, 0.33)
-        self.attack_timer = Timer(FPS, 20)
+        self.attack_timer = Timer(FPS, 2)
         self.pre_attack_timer = Timer(FPS, 5)
         self.requst_timer = Timer(FPS, 2)
         self.all_sprite_list = pygame.sprite.Group()
