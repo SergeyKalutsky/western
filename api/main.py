@@ -33,6 +33,14 @@ def dict_sort(d):
 def read_root():
     return {"Hello": "World"}
 
+@app.get("/reset")
+def reset():
+    # ПОМНИТЕ: ГЛОБАЛЬНЫЕ ПРЕМЕННЫЕ - ЗЛО! ЭТУ СТРОКУ НАПИСАЛ ПРОФЕССИОНАЛЬНЫЙ ГОВНОКОДЕР, НЕ СТОИТ ПОВТОРЯТЬ ЭТО ДОМА!
+    global players_lst, players_scores, max_players, battle_permissions 
+    players_scores = {}
+    players_lst = []
+    battle_permissions = {}
+
 
 @app.get("/players")
 def players():
@@ -70,8 +78,12 @@ def get_scores():
 
 @app.get("/score_sort")
 def score_sort():
+    
     if len(players_scores.keys()) == max_players:
         return dict_sort(players_scores).items()
+
+            
+
 
 
 @app.get("/get_permissions")
