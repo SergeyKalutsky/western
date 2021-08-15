@@ -24,7 +24,7 @@ class Game:
         self.shot_sound = pygame.mixer.Sound('assets/sound/shot.wav')
         self.player = Player(800, 300)
         self.enemy = Enemy(250, 100)
-        self.aim = Aim(self.enemy, shake_power=1, shake_frequency=0)
+        self.aim = Aim(self.enemy, shake_power=1, shake_frequency=8)
         self.shoot_timer = Timer(FPS, 0.33)
         self.attack_timer = Timer(FPS, 2)
         self.pre_attack_timer = Timer(FPS, 5)
@@ -54,6 +54,10 @@ class Game:
                                 ISCANDER_RED, 40, (100, 50))
 
         self.players_scores = []
+
+        self.bullets = 1
+
+        requests.get(url=f'http://{self.url}/reset')
 
     def draw(self):
         self.screen.blit(self.bg, (0, 0))
@@ -209,6 +213,11 @@ class Game:
             # когда attack_timer запущен, появляется возможность двигать прицелом
             if self.attack_timer.active:
                 self.move_aim()
+            
+
+            if self.attack_timer_HBA and not self.attack_timer.active and not self.HBS:
+                requests.post(url=f'http://{self.url}/post_score', json={
+              'name': self.name, 'score': 0}).content
 
             # обновление спрайтов и окна игры
             self.all_sprite_list.update()
